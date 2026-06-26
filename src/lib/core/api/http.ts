@@ -1,18 +1,23 @@
 import axios from 'axios';
 
 export const http = axios.create({
-	baseURL: 'http://localhost:3000/api',
+	baseURL: 'https://api-rapatsmkpluspnb.reihan.biz.id/api/v1',
 	headers: {
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
 	},
 	timeout: 10000
 });
 
-// Request interceptor - ready for auth token injection
+// Request interceptor - token injection
 http.interceptors.request.use(
 	(config) => {
-		// const token = localStorage.getItem('auth_token');
-		// if (token) config.headers.Authorization = `Bearer ${token}`;
+		if (typeof window !== 'undefined') {
+			const token = localStorage.getItem('auth_token');
+			if (token) {
+				config.headers.Authorization = `Bearer ${token}`;
+			}
+		}
 		return config;
 	},
 	(error) => Promise.reject(error)
@@ -23,9 +28,12 @@ http.interceptors.response.use(
 	(response) => response,
 	(error) => {
 		if (error.response?.status === 401) {
-			// Handle unauthorized - redirect to login
-			window.location.href = '/login';
+			if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+				localStorage.removeItem('auth_token');
+				window.location.href = '/login';
+			}
 		}
 		return Promise.reject(error);
 	}
 );
+

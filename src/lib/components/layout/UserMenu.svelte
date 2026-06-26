@@ -26,8 +26,8 @@
 	class="absolute right-0 top-full mt-2 w-64 rounded-lg border border-hairline bg-surface-card shadow-lg animate-slide-up z-20"
 >
 	<div class="border-b border-hairline p-4">
-		<p class="text-title-sm text-ink">{user.title === 'Ibu' ? 'Bu' : 'Pak'} {user.name}</p>
-		<p class="mt-0.5 text-body-sm text-muted truncate">{user.nig}</p>
+		<p class="text-title-sm text-ink">{user.title ? (user.title === 'Ibu' ? 'Bu ' : 'Pak ') : ''}{user.name}</p>
+		<p class="mt-0.5 text-body-sm text-muted truncate">{user.nomor_induk || user.nig || ''}</p>
 	</div>
 
 	<div class="p-2">

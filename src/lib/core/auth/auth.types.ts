@@ -1,9 +1,19 @@
 export interface User {
-	id: string;
+	id: number;
 	name: string;
-	nig: string;
-	phone: string;
-	subjects: string[];
-	title: 'Bapak' | 'Ibu';
+	nomor_induk: number | string;
+	nig?: string | number;
+	role: string;
+	phone?: string;
+	subjects?: string[];
+	title?: 'Bapak' | 'Ibu';
 	avatarUrl?: string;
+}
+
+export interface LoginResponse {
+	message: string;
+	data: {
+		access_token: string;
+		user: User;
+	};
 }

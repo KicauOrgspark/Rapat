@@ -10,6 +10,8 @@
 	import { toastStore } from '$lib/components/ui/toast.store.svelte';
 	import { confirmAttendance } from '../meetings.api';
 
+	import { authStore } from '$lib/core/auth/auth.store.svelte';
+
 	interface Props {
 		meeting: Meeting;
 	}
@@ -20,7 +22,11 @@
 	let confirmStatus = $state<AttendanceStatusType>('hadir');
 	let isSubmitting = $state(false);
 
-	const currentAttendee = $derived(meeting.attendees.find((a) => a.userId === 'usr_001'));
+	const currentUserId = $derived(authStore.currentUser ? String(authStore.currentUser.id) : null);
+
+	const currentAttendee = $derived(
+		currentUserId ? meeting.attendees.find((a) => a.userId === currentUserId) : undefined
+	);
 
 	const canConfirm = $derived(
 		meeting.status === 'mendatang' &&

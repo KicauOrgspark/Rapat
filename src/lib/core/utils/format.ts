@@ -1,4 +1,5 @@
-export function formatName(title: string, name: string): string {
+export function formatName(title: string | undefined, name: string): string {
+	if (!title) return name;
 	const prefix = title.toLowerCase() === 'ibu' ? 'Bu' : 'Pak';
 	return `${prefix} ${name}`;
 }

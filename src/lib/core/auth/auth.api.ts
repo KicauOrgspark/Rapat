@@ -1,22 +1,37 @@
-import type { User } from './auth.types';
+import { http } from '../api/http';
+import type { LoginResponse, User } from './auth.types';
 
-const MOCK_USER: User = {
-	id: 'usr_001',
-	name: 'Sari Dewi, S.Pd.',
-	nig: '198501012010012001',
-	phone: '081234567890',
-	subjects: ['Matematika', 'IPA'],
-	title: 'Ibu'
-};
+export async function loginApi(
+	nomor_induk: string,
+	password: string
+): Promise<LoginResponse['data'] | null> {
+	try {
+		const response = await http.post<LoginResponse>('/auth/login', {
+			nomor_induk,
+			password
+		});
 
-const MOCK_PASSWORD = 'guru123';
-
-export async function loginApi(nig: string, password: string): Promise<User | null> {
-	// Simulate network delay
-	await new Promise((resolve) => setTimeout(resolve, 800));
-
-	if (nig === MOCK_USER.nig && password === MOCK_PASSWORD) {
-		return MOCK_USER;
+		if (response.status === 200 && response.data?.data) {
+			return response.data.data;
+		}
+		return null;
+	} catch (error) {
+		console.error('Login error:', error);
+		return null;
 	}
-	return null;
 }
+
+export async function getUserProfileApi(): Promise<User | null> {
+	try {
+		const response = await http.get<{ Message: string; data: User }>('/auth/me');
+		if (response.status === 200 && response.data?.data) {
+			return response.data.data;
+		}
+		return null;
+	} catch (error) {
+		console.error('Fetch profile error:', error);
+		return null;
+	}
+}
+
+

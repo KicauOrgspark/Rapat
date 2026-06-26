@@ -5,25 +5,35 @@
 	import GreetingCard from '$lib/features/home/components/GreetingCard.svelte';
 	import TodayMeetingCard from '$lib/features/home/components/TodayMeetingCard.svelte';
 	import UpcomingList from '$lib/features/home/components/UpcomingList.svelte';
+	import LoadingSpinner from '$lib/components/ui/LoadingSpinner.svelte';
 
 	let todayMeeting = $state<Meeting | null>(null);
 	let upcomingMeetings = $state<Meeting[]>([]);
+	let isLoading = $state(true);
 
-	onMount(() => {
-		const data = getHomeData();
-		todayMeeting = data.todayMeeting;
-		upcomingMeetings = data.upcomingMeetings;
+	onMount(async () => {
+		try {
+			const data = await getHomeData();
+			todayMeeting = data.todayMeeting;
+			upcomingMeetings = data.upcomingMeetings;
+		} finally {
+			isLoading = false;
+		}
 	});
 </script>
 
 <div class="animate-fade-in">
 	<GreetingCard />
 
-	<div class="mt-6">
-		<TodayMeetingCard meeting={todayMeeting} />
-	</div>
+	{#if isLoading}
+		<LoadingSpinner class="py-12" />
+	{:else}
+		<div class="mt-6">
+			<TodayMeetingCard meeting={todayMeeting} />
+		</div>
 
-	<div class="mt-8">
-		<UpcomingList meetings={upcomingMeetings} />
-	</div>
+		<div class="mt-8">
+			<UpcomingList meetings={upcomingMeetings} />
+		</div>
+	{/if}
 </div>

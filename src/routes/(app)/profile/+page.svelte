@@ -2,7 +2,7 @@
 	import { authStore } from '$lib/core/auth/auth.store.svelte';
 	import { getInitials } from '$lib/core/utils/format';
 	import { goto } from '$app/navigation';
-	import { Hash, Phone, BookOpen, User as UserIcon, LogOut, Info } from 'lucide-svelte';
+	import { Hash, User as UserIcon, LogOut, Info, Shield } from 'lucide-svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 
 	const user = $derived(authStore.currentUser);
@@ -29,8 +29,7 @@
 					{initials}
 				</div>
 				<h2 class="mt-4 text-title-lg text-ink">
-					{user.title === 'Ibu' ? 'Ibu' : 'Bapak'}
-					{user.name}
+					{user.title ? (user.title === 'Ibu' ? 'Ibu ' : 'Bapak ') : ''}{user.name}
 				</h2>
 			</div>
 
@@ -39,24 +38,16 @@
 				<div class="flex items-center gap-3 border-b border-hairline px-4 py-3.5">
 					<Hash class="h-5 w-5 text-primary shrink-0" />
 					<div>
-						<p class="text-caption text-muted">NIG</p>
-						<p class="text-body-md text-ink">{user.nig}</p>
+						<p class="text-caption text-muted">Nomor Induk</p>
+						<p class="text-body-md text-ink">{user.nomor_induk}</p>
 					</div>
 				</div>
 
 				<div class="flex items-center gap-3 border-b border-hairline px-4 py-3.5">
-					<Phone class="h-5 w-5 text-primary shrink-0" />
+					<Shield class="h-5 w-5 text-primary shrink-0" />
 					<div>
-						<p class="text-caption text-muted">No. HP</p>
-						<p class="text-body-md text-ink">{user.phone}</p>
-					</div>
-				</div>
-
-				<div class="flex items-center gap-3 border-b border-hairline px-4 py-3.5">
-					<BookOpen class="h-5 w-5 text-primary shrink-0" />
-					<div>
-						<p class="text-caption text-muted">Mata Pelajaran</p>
-						<p class="text-body-md text-ink">{user.subjects.join(', ')}</p>
+						<p class="text-caption text-muted">Peran</p>
+						<p class="text-body-md text-ink capitalize">{user.role}</p>
 					</div>
 				</div>
 
@@ -86,3 +77,4 @@
 		</div>
 	{/if}
 </div>
+

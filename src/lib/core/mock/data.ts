@@ -4,9 +4,11 @@ import type { AttendanceRecord, AttendanceStats } from '$lib/features/attendance
 import type { MeetingNote } from '$lib/features/notes/notes.types';
 
 export const mockUser: User = {
-	id: 'usr_001',
+	id: 1,
 	name: 'Sari Dewi, S.Pd.',
+	nomor_induk: '198501012010012001',
 	nig: '198501012010012001',
+	role: 'guru',
 	phone: '081234567890',
 	subjects: ['Matematika', 'IPA'],
 	title: 'Ibu'

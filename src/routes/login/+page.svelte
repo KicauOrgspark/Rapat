@@ -5,7 +5,7 @@
 	import LoadingSpinner from '$lib/components/ui/LoadingSpinner.svelte';
 	import { Hash, Lock, AlertCircle } from 'lucide-svelte';
 
-	let nig = $state('');
+	let nomorInduk = $state('');
 	let password = $state('');
 	let error = $state('');
 	let isLoading = $state(false);
@@ -20,12 +20,12 @@
 		error = '';
 		isLoading = true;
 
-		const result = await authStore.login(nig, password);
+		const result = await authStore.login(nomorInduk, password);
 
 		if (result.success) {
 			goto('/');
 		} else {
-			error = result.error || 'NIG atau password salah';
+			error = result.error || 'Nomor Induk atau password salah';
 			isLoading = false;
 		}
 	}
@@ -51,15 +51,15 @@
 			{/if}
 
 			<div>
-				<label for="nig" class="mb-1.5 block text-body-sm font-medium text-ink"> NIG </label>
+				<label for="nomorInduk" class="mb-1.5 block text-body-sm font-medium text-ink"> Nomor Induk </label>
 				<div class="relative">
 					<Hash class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
 					<input
-						id="nig"
+						id="nomorInduk"
 						type="text"
-						bind:value={nig}
+						bind:value={nomorInduk}
 						required
-						placeholder="Masukkan NIG"
+						placeholder="Masukkan Nomor Induk"
 						class="w-full rounded-md border border-hairline bg-canvas py-3 pl-10 pr-4 text-body-md text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
 					/>
 				</div>
@@ -94,9 +94,10 @@
 		<div class="mt-6 rounded-md bg-surface-card p-4 text-center">
 			<p class="text-caption text-muted">
 				<strong class="text-ink">Demo:</strong><br />
-				198501012010012001<br />
-				guru123
+				12345678<br />
+				password
 			</p>
 		</div>
 	</div>
 </div>
+
